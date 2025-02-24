@@ -1,0 +1,149 @@
+---
+title: "QTM350HW5"
+author: "Yunqing (Ivy) Chen"
+date: "2025-02-19"
+format: 
+    html
+bibliography: reference.bib
+---
+# QTM350 HW5
+
+## 2. Load Data
+```{python}
+import pandas as pd
+df = pd.read_csv("/Users/chenyunqing/Documents/QTM350/QTM350HW5-cyq/wdi.csv")
+```
+
+## 3. Exploratory Data Analysis
+```{python}
+#| echo: true
+#| eval: true
+import pandas as pd
+df = pd.read_csv("/Users/chenyunqing/Documents/QTM350/QTM350HW5-cyq/wdi.csv")
+
+df = df.dropna(subset=['life_expectancy', 'gdp_per_capita', 'country', 'gdp_growth_rate'])
+
+highest_life_expectancy = df['life_expectancy'].max()
+highest_life_expectancy_idx = df['life_expectancy'].idxmax()
+country_highest_life_expectancy = df.loc[highest_life_expectancy_idx, 'country']
+gdp_per_capita_country_highest_life_expectancy = df.loc[highest_life_expectancy_idx, 'gdp_per_capita']
+gdp_growth_rate_country_highest_life_expectancy = df.loc[highest_life_expectancy_idx, 'gdp_growth_rate']
+
+highest_gdp_per_capita = df['gdp_per_capita'].max()
+highest_gdp_per_capita_idx = df['gdp_per_capita'].idxmax()
+country_highest_gdp_per_capita = df.loc[highest_gdp_per_capita_idx, 'country']
+life_expectancy_country_highest_gdp_per_capita = df.loc[highest_gdp_per_capita_idx, 'life_expectancy']
+gdp_growth_rate_country_highest_gdp_per_capita = df.loc[highest_gdp_per_capita_idx, 'gdp_growth_rate']
+
+display(highest_life_expectancy)
+display(country_highest_life_expectancy)
+display(gdp_per_capita_country_highest_life_expectancy)
+display(gdp_growth_rate_country_highest_life_expectancy)
+
+display(highest_gdp_per_capita)
+display(country_highest_gdp_per_capita)
+display(life_expectancy_country_highest_gdp_per_capita)
+display(gdp_growth_rate_country_highest_gdp_per_capita)
+```
+
+Maco SAR, China has the highest life expectancy. Its life expectancy is 85.38, its GDP per capita is 36909.96, and its GDP growth rate is -19.61. Luxembourg has the highest GDP per capita. Its GDP per capita is 125006.02, its life expectancy is 83.05, and its GDP growth rate is 1.38.
+
+## 4. Plots
+
+```{python}
+#| fig-width: 4
+#| fig-height: 3
+#| fig-align: center
+#| echo: false
+#| eval: true
+#| fig-cap: "Scatter Plot of GDP per Capita vs Life Expectancy Data Source: [@worldbank]"
+#| label: fig-1
+#| fig-env: figure
+#| fig-pos: H
+import matplotlib.pyplot as plt
+import pandas as pd
+df = pd.read_csv("/Users/chenyunqing/Documents/QTM350/QTM350HW5-cyq/wdi.csv")
+
+plt.scatter(df['gdp_per_capita'], df['life_expectancy'], alpha=0.7, edgecolors='w', s=100)
+
+plt.xlabel('GDP per Capita')
+plt.ylabel('Life Expectancy')
+plt.title('Scatter Plot of GDP per Capita vs Life Expectancy')
+plt.show()
+```
+
+```{python}
+#| fig-width: 4
+#| fig-height: 3
+#| fig-align: center
+#| echo: false
+#| eval: true
+#| fig-cap: "Top 10 Countries with Highest Life Expectancy Data Source: [@worldbank]"
+#| label: fig-2
+#| fig-env: figure
+#| fig-pos: H
+
+import matplotlib.pyplot as plt
+import pandas as pd
+df = pd.read_csv("/Users/chenyunqing/Documents/QTM350/QTM350HW5-cyq/wdi.csv")
+
+top10 = df.sort_values(by='life_expectancy', ascending=False).head(10)
+
+plt.bar(top10['country'], top10['life_expectancy'], color='skyblue')
+plt.ylim(75, None)
+plt.xlabel('Country')
+plt.ylabel('Life Expectancy')
+plt.title('Top 10 Countries with Highest Life Expectancy')
+plt.xticks(rotation=45)  
+plt.tight_layout()  
+plt.show()
+```
+
+```{python}
+#| fig-width: 4
+#| fig-height: 3
+#| fig-align: center
+#| echo: false
+#| eval: true
+#| fig-cap: "Top 10 Countries with Highest GDP Per Capita Data Source: [@worldbank]"
+#| label: fig-3
+#| fig-env: figure
+#| fig-pos: H
+
+import matplotlib.pyplot as plt
+import pandas as pd
+df = pd.read_csv("/Users/chenyunqing/Documents/QTM350/QTM350HW5-cyq/wdi.csv")
+
+top10 = df.sort_values(by='gdp_per_capita', ascending=False).head(10)
+
+plt.bar(top10['country'], top10['gdp_per_capita'], color='skyblue')
+plt.xlabel('Country')
+plt.ylabel('GDP Per Capita')
+plt.title('Top 10 Countries with Highest GDP per Capita')
+plt.xticks(rotation=45)  
+plt.tight_layout()  
+plt.show()
+```
+
+
+## 5. Table of Key Statistics
+
+|     Country      | Life expectancy | GDP Per Capita  | GDP growth rate |       Why Important?      |
+|--------------------|-----------------|-----------------|-----------------| ---------------------------|
+| Macao SAR, China | 85.38           | 36909.96        | -19.61          | Highest Life Expectancy   | 
+| Luxembourg       | 83.05           | 125006.02       | 1.38            |  Highest GDP Per Capita    | 
+
+
+: Key Statistics Table    {#tbl-1}
+
+
+## Q6 Cross-reference
+@fig-1 presents the scatter distribution of country's life expectancy and GDP per capita. We can observe a positive correlation between life expectancy and GDP per capita.
+@fig-2 presents the top 10 countries with highest life expectancy. We can observe Macao SAR, China has the highest life expectancy.
+@fig-3 presents the top 10 countries with highest GPD per capita. We can observe Lienchtenstein has the highest GDP per capita.
+@tbl-1 presents the statistics of countries with the highest life expectancy and the highest GDP per capita.
+
+
+## Q7 Reference
+@mckinsey proves a positive correlation between health and income.
+@WHO provides the definitions and implications of GDP per capita and GDP growth rate.
